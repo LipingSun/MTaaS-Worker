@@ -9,4 +9,6 @@ RUN npm install --production
 # Bundle app source
 COPY . /usr/src/app
 # Start app
+ENV MONGODB_URI=$MONGODB_URI
+ENV JWT_SECRET=$JWT_SECRET
 CMD [ "npm", "start" ]
