@@ -12,7 +12,7 @@ sudo: required
 services:
 - docker
 after_success:
-- image=liping/mtaas-worker:$(date +"%Y%m%d%H%M%S")
+- image=liping511/mtaas-worker:$(date +"%Y%m%d%H%M%S")
 - docker build -t $image .
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 - docker push $image
