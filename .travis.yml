@@ -13,6 +13,6 @@ services:
 - docker
 after_success:
 - image=liping511/mtaas-worker:$(date +"%Y%m%d%H%M%S")
-- docker build -t $image .
+- docker build -t $image --build-arg MONGODB_URI=$MONGODB_URI --build-arg JWT_SECRET=$JWT_SECRET .
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 - docker push $image
