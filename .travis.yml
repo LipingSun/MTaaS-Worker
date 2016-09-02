@@ -13,6 +13,6 @@ services:
 - docker
 after_success:
 - image=liping/mtaas-worker:$(date +"%Y%m%d%H%M%S")
-- docker build -t image
+- docker build -t $image .
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- docker push image
+- docker push $image
