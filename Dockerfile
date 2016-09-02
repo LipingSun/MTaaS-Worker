@@ -8,7 +8,8 @@ COPY package.json /usr/src/app/
 RUN npm install --production
 # Bundle app source
 COPY . /usr/src/app
+# Environment Variables
+ARG MONGODB_URI
+ARG JWT_SECRET
 # Start app
-ENV MONGODB_URI=$MONGODB_URI
-ENV JWT_SECRET=$JWT_SECRET
 CMD [ "npm", "start" ]
