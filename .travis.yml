@@ -11,7 +11,7 @@ env:
 sudo: required
 services:
 - docker
-deploy:
+after_success:
 - image=liping/mtaas-worker:$(date +"%Y%m%d%H%M%S")
 - docker build -t image
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
