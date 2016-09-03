@@ -16,7 +16,7 @@ after_success:
   - docker build -t $image --build-arg MONGODB_URI=$MONGODB_URI --build-arg JWT_SECRET=$JWT_SECRET .
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push $image
-before_deploy:
+#before_deploy:
   - echo "{\"AWSEBDockerrunVersion\":\"1\",\"Image\":{\"Name\":\"$image\"},\"Ports\":[{\"ContainerPort\":\"3000\"}]}" > Dockerrun.aws.json
   - pip --version
 #deploy:
