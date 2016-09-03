@@ -12,7 +12,7 @@ auth.register = function (req, res) {
         if (err) {
             res.status(500).send();
         } else {
-            res.status(201).send();
+            res.status(201).send(generateResponse(user));
         }
     });
 };
@@ -26,12 +26,19 @@ auth.login = function (req, res) {
             return res.status(400).send(info);
         }
         // debug(user);
-        res.send({token: 'JWT ' + jwt.sign({username: user.username}, process.env.JWT_SECRET)});
+        res.send(generateResponse(user));
     })(req, res);
 };
 
 auth.logout = function () {
     // TODO
 };
+
+function generateResponse(user) {
+    return {
+        user_id: user._id,
+        token: 'JWT ' + jwt.sign({user_id: user._id}, process.env.JWT_SECRET)
+    }
+}
 
 module.exports = auth;
