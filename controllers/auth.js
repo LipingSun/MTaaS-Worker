@@ -8,9 +8,9 @@ var User = require('../models/User');
 var auth = {};
 
 auth.register = function (req, res) {
-    User.register(new User({username: req.body.username}), req.body.password, function (err) {
+    User.register(new User({username: req.body.username}), req.body.password, function (err, user) {
         if (err) {
-            res.status(500).send();
+            res.status(500).send(err);
         } else {
             res.status(201).send(generateResponse(user));
         }
