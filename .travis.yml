@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '5.12'
+  - '5.12'
 env:
   global:
   - secure: ys8pLVygLoxOhTBfZvo32HTIeoWz50SHD0fkrYUhxVZkZbjMrw43LGIDtJ6zIbBS3m3j6vEKE33fVWxyCf/lHHAxKrm0y2wnBfF2KkInDhP/IgozSu4Bkto1dZOGD7lWiPJIa1cAtdN1z2jHFOnNK9WYCt8shX1k8R4SBiyeAMRBMwhI+j4w8OGgKs+E5ucF+zq3sQy5Qp4n0Z6eiHqVnp6iOWCPh7Dj5vRQ331xG5wNfXpggpUoH1fGIkOG5qbVPjl0/Q/zlA3xZycWHijWccPs/JjL7mPTn9ZN4vhFYdM9VPL96VIJ4rI6wirc1vzZVnpmju5lFHJ0fnUij9YYCWInBdN3/+mEdIcedCAENvymUyhACxZo3okbCMpOLMpNhGgstDgHD0TX3iTcEZ1pKYMUHYVcOVy2Hf/w2Z7B3PiudbDcg38Fmls0lFgYVq88XMcowZGAjATJNDwQuVM9NjWT8ghhhlS0UtG+b234zsDwjsPyhz0aEuJgiVW4NGNJHopd+wI3N7H0pwFZ8ELExPmrUepCFaDskPNeQAcc0wqM3nWkCsaYoEbt09njsqzdWnCwO8rSfZUA9oUzlJPUEqxu7cqlpt9ObpNV0jZSnSLaIDztnObvGkJtULaTfz6uoBB/cLb6hpvQRR/b1r7ShCM6FA3ZHB3lNskXz0SWmqo=
@@ -10,9 +10,22 @@ env:
 
 sudo: required
 services:
-- docker
+  - docker
 after_success:
-- image=liping511/mtaas-worker:$(date +"%Y%m%d%H%M%S")
-- docker build -t $image --build-arg MONGODB_URI=$MONGODB_URI --build-arg JWT_SECRET=$JWT_SECRET .
-- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- docker push $image
+  - image=liping511/mtaas-worker:$(date +"%Y%m%d%H%M%S")
+  - docker build -t $image --build-arg MONGODB_URI=$MONGODB_URI --build-arg JWT_SECRET=$JWT_SECRET .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push $image
+before_deploy:
+  - echo "{\"AWSEBDockerrunVersion\":\"1\",\"Image\":{\"Name\":\"$image\"},\"Ports\":[{\"ContainerPort\":\"3000\"}]}" > Dockerrun.aws.json
+  - cat Dockerrun.aws.json
+deploy:
+  - provider: elasticbeanstalk
+    access_key_id:
+      secure: bnFXGcDyGjWaIn3fgv33dTijJ6RmAUQSKWfCCwSkIyKYdKtyuDiTEzQYPQrQY9FkReOARrsqfVZAjeJSA8yePspvjGb0wmXfHRTxQBBXd6K6Ra/UBxmiOnNmadnHOEBSyEvntyLBVoY6UosIbCZz5lbBgRVfzsGAylKhiFvCgpShqZjrqJ4siSa7eIkafuoWy/PC7rFQG0RQ9pb+YB/wd4ppUdxVAHWLGWNL32pRwdYASen16qaRCtYEQjCQewSi5DbvHYCTbL2sFTiC/QWGB1vyVyrz9nxz5+TELblMCNCr580fGx9m53i9NoYYimZHFtb/ZT+GdKYltatn7K2jJictZyaOnXWzyodxiQt+s3pSYOa94ijZadTm2XWHJbO40jtwlqjXk2SRTykRhHInt1c8soRW5dUTxhtlEmHwZ46neGFy2qKhp7fGB5N454yGwyudptOOStCPDnmZFEzI1XYYhY2dd/ZIyuWez/xzJv2XgrScbQs2ATycfNdmnfT5+MoaFQY2xnW6ZhpjJLDoz4rHrqypM9OFqJPTfS3Ru/QVaq0H6DP6q8Ufms6LhPyqQPwToifeGj2hNZzE4Xi/w+vMyU0PwwkDdaXeDjKXGmHKPdSOQuhCP71UjHxVaNuV31ILSBf46tn+Bw/tV9GXhJKDBvxFs9pmW5mc+Wluuns=
+    secret_access_key:
+      secure: zOMCB313gPb/Yhdcj2rYFQcfykKmTEUJz/+FcT4Fu/lQCU0dBmVuqT8vVFXm2ayVa7e1xseg7I1yKHVZqQ+WLlyXUB+MxnAj/VVtLR+E0rsQg4NPoJ2jzxSUq/xzPTulqWxhdviTQqb7vTuxizAa+7vuknHvhiJh6nGiIEof0K5HTFmS20k+990OKibIRl/EwbPw5er/5mR3I6RHo7WLynkmHHZH8VhndXlsENRdNZl2trE2CjzLMJwSpMhOjNADGVFY3aYZEH9nDpSp7NiwgStdYqZ55I1ASIOYpgpSi71Fw8fzCrflJ1ztsD0WAz5BOx3qEYJjT0lD2sKM0fdbuqaxDqej84DAU+Pn3oJj/oROfIrCVkwMayX8C7cLOzUJ+SLDzSl1Kg4bxdtJZlVJHMAbSKdQkKzo+DD2z6VEOANBDX7G53TGygWsOC5o1gOi1UMHxOLeMme1V3SODN9ZDriGdh/2dfEdNQnsA6cBwXISvTRh//dz5d22i03tSiCKmYftb43ILFve+6nrCKwoPJ8iaHhXu1ClK64rlfyDyldSzqzLWTsz1jU9lP6HJd2iEF+s7a2XXkTDILjmMhNCRxTp5PfdxeqMQk5Zkr46kHKbApZ3cf6T6M3orn88MEw0tr785YNMkDApfpma2wZPzQETy5YhA2t6ofMBaEuYd5E=
+    region: us-west-2
+    app: MTaaS-Worker
+    env: mtaas-worker
+    zip_file: Dockerrun.aws.json
