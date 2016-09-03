@@ -16,10 +16,11 @@ after_success:
   - docker build -t $image --build-arg MONGODB_URI=$MONGODB_URI --build-arg JWT_SECRET=$JWT_SECRET .
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push $image
-#before_deploy:
+before_deploy:
   - echo "{\"AWSEBDockerrunVersion\":\"1\",\"Image\":{\"Name\":\"$image\"},\"Ports\":[{\"ContainerPort\":\"3000\"}]}" > Dockerrun.aws.json
-  - pip --version
 #deploy:
+#  - provider: script
+#    script: deploy/aws-beanstalk-docker.sh
 #  - provider: elasticbeanstalk
 #    access_key_id:
 #      secure: bnFXGcDyGjWaIn3fgv33dTijJ6RmAUQSKWfCCwSkIyKYdKtyuDiTEzQYPQrQY9FkReOARrsqfVZAjeJSA8yePspvjGb0wmXfHRTxQBBXd6K6Ra/UBxmiOnNmadnHOEBSyEvntyLBVoY6UosIbCZz5lbBgRVfzsGAylKhiFvCgpShqZjrqJ4siSa7eIkafuoWy/PC7rFQG0RQ9pb+YB/wd4ppUdxVAHWLGWNL32pRwdYASen16qaRCtYEQjCQewSi5DbvHYCTbL2sFTiC/QWGB1vyVyrz9nxz5+TELblMCNCr580fGx9m53i9NoYYimZHFtb/ZT+GdKYltatn7K2jJictZyaOnXWzyodxiQt+s3pSYOa94ijZadTm2XWHJbO40jtwlqjXk2SRTykRhHInt1c8soRW5dUTxhtlEmHwZ46neGFy2qKhp7fGB5N454yGwyudptOOStCPDnmZFEzI1XYYhY2dd/ZIyuWez/xzJv2XgrScbQs2ATycfNdmnfT5+MoaFQY2xnW6ZhpjJLDoz4rHrqypM9OFqJPTfS3Ru/QVaq0H6DP6q8Ufms6LhPyqQPwToifeGj2hNZzE4Xi/w+vMyU0PwwkDdaXeDjKXGmHKPdSOQuhCP71UjHxVaNuV31ILSBf46tn+Bw/tV9GXhJKDBvxFs9pmW5mc+Wluuns=
