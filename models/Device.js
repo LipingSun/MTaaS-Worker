@@ -9,7 +9,8 @@ var Device = mongoose.model('Device', {
     cpu: String,
     memory: String,
     status: String,
-    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    adb_uri: String
 });
 
 module.exports = Device;
