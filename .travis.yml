@@ -1,6 +1,7 @@
 cache:
   directories:
     - node_modules
+    - ~/docker
 language: node_js
 node_js:
   - '5.12'
@@ -15,6 +16,8 @@ sudo: required
 services:
   - docker
 after_success:
+  - ls ~/docker
+  - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
   - image=liping511/mtaas-worker:$(date +"%Y%m%d%H%M%S")
   - docker build -t $image --build-arg MONGODB_URI=$MONGODB_URI --build-arg JWT_SECRET=$JWT_SECRET .
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
