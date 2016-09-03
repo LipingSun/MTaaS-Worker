@@ -11,5 +11,7 @@ COPY . /usr/src/app
 # Environment Variables
 ARG MONGODB_URI
 ARG JWT_SECRET
+ENV MONGODB_URI=$MONGODB_URI
+ENV JWT_SECRET=$JWT_SECRET
 # Start app
 CMD [ "npm", "start" ]
