@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 app.post('/register', auth.register);
 app.post('/login', auth.login);
-app.use('/api/v1', passport.authenticate('jwt', { session: false}));
+// app.use('/api/v1', passport.authenticate('jwt', { session: false }));
 app.use('/api/v1', mers({mongoose: mongoose}).rest());
 
 // catch 404 and forward to error handler
