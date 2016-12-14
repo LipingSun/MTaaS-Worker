@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 
-var Device = mongoose.model('device', {
-    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+var Emulator = mongoose.model('emulator', {
     occupant: String,
     status: String,
     adb_uri: String,
+    region: String,
     spec: mongoose.Schema.Types.Mixed
 });
 
-module.exports = Device;
+module.exports = Emulator;

@@ -8,7 +8,10 @@ var mers = require('mers');
 var passport = require('./service/passport');
 
 var User = require('./models/User');
+var Hub = require('./models/Hub');
 var Device = require('./models/Device');
+var Emulator = require('./models/Emulator');
+var EmulatorHost = require('./models/EmulatorHost');
 var auth = require('./controllers/auth');
 
 var app = express();
