@@ -5,6 +5,7 @@ var Emulator = mongoose.model('emulator', {
     status: String,
     adb_uri: String,
     region: String,
+    mysql_id: String,
     spec: mongoose.Schema.Types.Mixed
 });
 
