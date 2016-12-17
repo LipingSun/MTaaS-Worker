@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var mongoose = require('mongoose');
 var mers = require('mers');
@@ -16,6 +17,7 @@ var auth = require('./controllers/auth');
 
 var app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(passport.initialize());
@@ -25,6 +27,10 @@ mongoose.connect(process.env.MONGODB_URI);
 app.post('/register', auth.register);
 app.post('/login', auth.login);
 // app.use('/api/v1', passport.authenticate('jwt', { session: false }));
+app.use('/api/v1', function (req, res, next) {
+   console.log(req.body);
+   next();
+});
 app.use('/api/v1', mers({mongoose: mongoose}).rest());
 
 // catch 404 and forward to error handler
