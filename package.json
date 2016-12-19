@@ -13,7 +13,7 @@
     "express": "~4.13.4",
     "jsonwebtoken": "^7.1.9",
     "mers": "^0.14.1",
-    "mongoose": "^4.5.10",
+    "mongoose": "^4.7.3",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",
