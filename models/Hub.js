@@ -6,6 +6,7 @@ var Hub = mongoose.model('hub', {
     uri: String,
     region: String,
     mysql_id: String,
+    aws_id: String,
     spec: mongoose.Schema.Types.Mixed
 });
 
