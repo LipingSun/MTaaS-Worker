@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var Hub = mongoose.model('hub', {
+    name: String,
     occupant: String,
     status: String,
     uri: String,

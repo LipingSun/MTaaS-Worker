@@ -6,6 +6,7 @@ var Device = mongoose.model('device', {
     status: String,
     adb_uri: String,
     mysql_id: String,
+    hub: {type: mongoose.Schema.Types.ObjectId, ref: 'hub'},
     spec: mongoose.Schema.Types.Mixed
 });
 
